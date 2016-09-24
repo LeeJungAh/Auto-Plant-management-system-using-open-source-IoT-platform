@@ -1,0 +1,113 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+
+<html>
+        <head>
+        <title>SoongsilGreen_operation</title>
+                <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+                <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+		        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+		        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+                <script type="text/javascript">
+                        // Load the Visualization API and the piechart package.
+                        google.load('visualization', '1', {'packages':['corechart']});
+
+                        // Set a callback to run when the Google Visualization API is loaded.
+                        google.setOnLoadCallback(drawChart);
+                        
+                        function drawChart1() {
+                        	
+                        	    var q=document.getElementById("date").value;
+                        	    var param = "q="+q;
+                                var json = $.ajax({
+                                        url: 'temhumi.php', // make this url point to the data file
+                                        data:param,
+                                        dataType: 'json',
+                                        async: false
+                                }).responseText;
+
+                                // Create our data table out of JSON data loaded from server.
+                                var data = new google.visualization.DataTable(json);
+                                var options = {
+                                        title: 'temperature & humidity',
+                                        titleTextStyle:  {fontSize: 40},
+                                        legendTextStyle:{fontSize: 25},
+                                        vAxis:{textStyle:{fontSize:30}},
+                                        legend:{position:'top'},
+                                        is3D: 'true',
+      
+                                };
+                                // Instantiate and draw our chart, passing in some options.
+                                //do not forget to check ur div ID
+                                var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
+                                chart.draw(data, options);
+                        }
+                    
+                        $(function() {
+                            
+                            $('#date').datepicker({dateFormat: "yymmdd"});
+                          });
+                        function init(){
+                        	var now = new Date();
+                            var year= now.getFullYear();
+                            var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+                            var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+                            var chan_val = year + mon +  day;
+                            $(date).val(chan_val);
+                            drawChart();
+                        }
+                        function drawChart(){
+                        	drawChart1();
+                        }
+                </script>  
+            <style>
+            div{}
+                #grid_1{
+                height: 11%;
+                width: 100%;
+                background-image:url('마스코트.jpg');
+                }
+        #grid_2{
+        width:33.33%;
+        height:5%;
+        float:left;      
+        text-align:center;
+        background-color:black;
+        color:#FFFFFF;
+        font-weight: bold; 
+        font-size: 3.0em;
+        }
+        #grid_3{
+        width:100%;
+        background-color:white;
+        height:2%;
+        float:left;           
+        }
+        #grid_4{
+        width:100%;
+        background-color:silver;
+        height:5%;
+        float:left;           
+        font-family: 돋움체;
+        font-size: 1.5em;
+        text-align:center;
+        }
+        </style>  
+        </head>
+        
+        <body onload="init()" leftmargin="0" topmargin="0">
+        <div id="grid_1"></div>
+        <div id="grid_2" style=" cursor: pointer;" onclick="location.href='m.mainhtml.html';">temp&humi</div>
+        <div id="grid_2" style=" cursor: pointer;" onclick="location.href='m.mainhtml1.html';">pH&EC</div>
+        <div id="grid_2" style=" cursor: pointer;" onclick="location.href='m.mainhtml2.html';">LightValue</div>        
+        <div id="grid_3"></div>
+        <center>
+        <input type="text" id="date" style="width=30%;height=5%;font-size:40px;text-align:center"/>
+        <input type="button" value="조회" style="width=10%;height=5;font-size:40px;" onclick="drawChart()"/>      
+        </center>
+        <div id="chart_div1" style="width:100%;height:80%;float:center;"></div>
+        <center><input type="button" value="PC버전" style="width=10%;height=5;font-size:40px;" onclick="location.href='main.html'"/><center>
+        <div id="grid_3"></div>                
+        <div id="grid_4"><br>주소 : 서울특별시 동작구 상도로 369</div>
+        </body>
+        </html>

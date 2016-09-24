@@ -1,0 +1,135 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+
+<html>
+        <head>
+        <title>SoongsilGreen_operation</title>
+                <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+                <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+		        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+		        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+                <script type="text/javascript">
+                        // Load the Visualization API and the piechart package.
+                        google.load('visualization', '1', {'packages':['corechart']});
+
+                        // Set a callback to run when the Google Visualization API is loaded.
+                        google.setOnLoadCallback(drawChart);
+                        
+                        function drawChart1() {
+                        	
+                        	    var q=document.getElementById("date").value;
+                        	    var param = "q="+q;
+                                var json = $.ajax({
+                                        url: 'temhumi.php', // make this url point to the data file
+                                        data:param,
+                                        dataType: 'json',
+                                        async: false
+                                }).responseText;
+
+                                // Create our data table out of JSON data loaded from server.
+                                var data = new google.visualization.DataTable(json);
+                                var options = {
+                                        title: 'temperature & humidity',
+                                        is3D: 'true',
+                                        width: 1000,
+                                        height: 500
+                                };
+                                // Instantiate and draw our chart, passing in some options.
+                                //do not forget to check ur div ID
+                                var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
+                                chart.draw(data, options);
+                        }
+                        function drawChart2() {
+                        	
+                    	    var q=document.getElementById("date").value;
+                    	    var param = "q="+q;
+                            var json = $.ajax({
+                                    url: 'phec.php', // make this url point to the data file
+                                    data:param,
+                                    dataType: 'json',
+                                    async: false
+                            }).responseText;
+
+                            // Create our data table out of JSON data loaded from server.
+                            var data = new google.visualization.DataTable(json);
+                            var options = {
+                                    title: 'pH & EC',
+                                    is3D: 'true',
+                                    width: 1000,
+                                    height: 500
+                            };
+                            // Instantiate and draw our chart, passing in some options.
+                            //do not forget to check ur div ID
+                            var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+                            chart.draw(data, options);
+                    }
+                     function drawChart3() {
+                        	
+                    	    var q=document.getElementById("date").value;
+                    	    var param = "q="+q;
+                            var json = $.ajax({
+                                    url: 'light.php', // make this url point to the data file
+                                    data:param,
+                                    dataType: 'json',
+                                    async: false
+                            }).responseText;
+
+                            // Create our data table out of JSON data loaded from server.
+                            var data = new google.visualization.DataTable(json);
+                            var options = {
+                                    title: 'Light',
+                                    is3D: 'true',
+                                    width: 1000,
+                                    height: 500
+                            };
+                            // Instantiate and draw our chart, passing in some options.
+                            //do not forget to check ur div ID
+                            var chart = new google.visualization.LineChart(document.getElementById('chart_div3'));
+                            chart.draw(data, options);
+                    }
+                    
+                        $(function() {
+                            
+                            $('#date').datepicker({dateFormat: "yymmdd"});
+                          });
+                        function init(){
+                        	var now = new Date();
+                            var year= now.getFullYear();
+                            var mon = (now.getMonth()+1)>9 ? ''+(now.getMonth()+1) : '0'+(now.getMonth()+1);
+                            var day = now.getDate()>9 ? ''+now.getDate() : '0'+now.getDate();
+                            var chan_val = year + mon +  day;
+                            $(date).val(chan_val);
+                            drawChart();
+                        }
+                        function drawChart(){
+                        	drawChart1();
+                            drawChart2();
+                              drawChart3();
+                        }
+                </script>  
+        </head>
+        <body onload="init()" leftmargin="0" topmargin="0">
+        <table align="center" width="1024" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+        <td colspan="8" height="177" background="마스코트.jpg"></td>
+        </tr>
+        <tr>
+        <td height="38" width="172" bgcolor="black"></td>
+        <td width="170"><a href="main.html"><img src="home.jpg" onmouseover="this.src='home_over.jpg'" onmouseout="this.src='home.jpg'" border="0"></a></td>
+        <td width="170"><a href="intro.html"><img src="intro.jpg" onmouseover="this.src='intro_over.jpg'" onmouseout="this.src='intro.jpg'" border="0"></a></td>
+        <td width="170"><a href="main.html"><img src="op.jpg" onmouseover="this.src='op_over.jpg'" onmouseout="this.src='op.jpg'" border="0"></a></td>
+        <td width="170"><a href="etc.html"><img src="etc.jpg" onmouseover="this.src='etc_over.jpg'" onmouseout="this.src='etc.jpg'" border="0"></a></td>
+        <td width="172" bgcolor="black"></td>
+        </tr>
+        
+        <tr>
+        <td colspan="8" height="519">
+        <br><br><br><input type="text" id="date" size="10"/> <input type="button" value="조회" onclick="drawChart()"/><br><br><br>
+        <div id="chart_div1" style="position:relative;float:center;"></div>
+        <div id="chart_div2" style="position:relative;float:center;"></div>
+        <div id="chart_div3" style="position:relative;float:center;"></div></td>
+        </tr> 
+        <tr>
+        <td colspan="8" height="73" background="배너.jpg"></td>
+        </body>
+        </html>

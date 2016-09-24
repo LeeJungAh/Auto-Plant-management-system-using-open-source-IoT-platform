@@ -1,0 +1,19 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>모바일 접속 확인</title>
+    <script>
+        var filter = "win16|win32|win64|mac|macintel";
+ 
+        if ( navigator.platform  ) {
+            if ( filter.indexOf( navigator.platform.toLowerCase() ) < 0 ) {
+                location.href = "m.mainhtml.html"; //모바일 페이지 경로
+            } else {
+                location.href = "main.html"; //PC 페이지 경로
+            }
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>
